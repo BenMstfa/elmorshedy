@@ -17,3 +17,23 @@ use Illuminate\Support\Facades\Artisan;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
+
+Artisan::command('create-projects', function () {
+    $faker = \Faker\Factory::create('en');
+    $fakerAr = \Faker\Factory::create('ar');
+
+    $media = \Spatie\MediaLibrary\MediaCollections\Models\Media::query()->get();
+
+    \App\Models\Project::query()->whereNotIn('id', [54])->get()
+        ->map(function (\App\Models\Project $project) use ($media) {
+            $media->map(function ($m) use ($project) {
+                $mediaArray = $m->toArray();
+
+                unset($mediaArray['id']);
+
+                $mediaArray['model_id'] = $project->id;
+
+                \Spatie\MediaLibrary\MediaCollections\Models\Media::query()->create($mediaArray);
+            });
+        });
+});

@@ -11,8 +11,19 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        require('postcss-import'),
-        require('tailwindcss'),
-    ]);
+mix.webpackConfig({
+    output: {
+        publicPath: '/app/js/',
+        chunkFilename: '[name].js?id=[chunkhash]',
+    }
+});
+
+mix.setPublicPath('public/app/js/')
+    .js('resources/js/app.js', 'app.js').extract()
+
+
+mix.babelConfig({
+    plugins: ['@babel/plugin-syntax-dynamic-import'],
+});
+
+mix.disableNotifications();

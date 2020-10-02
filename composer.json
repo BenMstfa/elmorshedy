@@ -14,7 +14,10 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
-        "spatie/laravel-medialibrary":  "^8.0.0"
+        "spatie/laravel-medialibrary": "^8.0.0",
+        "spatie/laravel-translatable": "^4.4",
+        "yajra/laravel-datatables-oracle": "~9.0",
+        "ext-json": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
@@ -38,7 +41,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app/Files/GeneralHelper.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

@@ -18,8 +18,8 @@ mix.webpackConfig({
 
 mix.setPublicPath('public/app/css/')
     .postCss('resources/css/app.css', 'app.css', [
-    require('postcss-import'),
-    require('tailwindcss'),
-]);
+        require('postcss-import'),
+        require('tailwindcss'),
+    ]);
 
 mix.disableNotifications();

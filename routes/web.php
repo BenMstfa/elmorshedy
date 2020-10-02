@@ -1,22 +1,28 @@
 <?php
 
+use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\WebsiteController;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::redirect('/dashboard', '/projects');
+Route::get('/', [WebsiteController::class, 'index'])->name('index');
+Route::get('/project/{id}/details', [WebsiteController::class, 'projectDetails'])->name('project.details');
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/projects', [ProjectsController::class, 'index'])->name('projects');
+    Route::post('/projects/datatable', [ProjectsController::class, 'datatable']);
+    Route::get('/projects/create', [ProjectsController::class, 'create']);
+    Route::post('/project/store', [ProjectsController::class, 'store']);
+    Route::get('/project/{id}/update', [ProjectsController::class, 'getUpdate']);
+    Route::post('/project/{id}/update', [ProjectsController::class, 'update']);
+    Route::post('/project/{id}/delete', [ProjectsController::class, 'delete']);
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return Inertia\Inertia::render('Dashboard');
-})->name('dashboard');
+Route::get('/language/switch/{lang}', function ($lang) {
+    App::setLocale($lang);
+
+    return redirect()->back()->withCookie(cookie()->forever('locale', $lang));
+
+})->name('language.switch');
